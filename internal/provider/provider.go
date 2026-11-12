@@ -155,6 +155,7 @@ func (p *descopeProvider) Resources(_ context.Context) []func() resource.Resourc
 		resources.NewListResource,
 		resources.NewJWTTemplateResource,
 		resources.NewFlowResource,
+		resources.NewFlowTranslationsResource,
 		resources.NewStylesResource,
 		resources.NewWidgetResource,
 	}
