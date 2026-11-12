@@ -11,7 +11,8 @@ id
 
 The ID of the outbound application. Set it to create the application under an ID of your choosing,
 for example one that the application calling Descope looks the application up by, or leave it out to
-let Descope generate one. Changing this value will require the resource to be deleted and recreated.
+let Descope generate one. A chosen ID has 1 to 30 lowercase letters, digits or hyphens. Changing this
+value will require the resource to be deleted and recreated.
 
 
 

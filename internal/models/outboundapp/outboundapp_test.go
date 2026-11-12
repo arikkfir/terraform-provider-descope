@@ -16,7 +16,9 @@ import (
 	"github.com/descope/terraform-provider-descope/internal/models/outboundapp"
 	"github.com/descope/terraform-provider-descope/tools/testacc"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/plancheck"
@@ -176,7 +178,8 @@ func TestOutboundApp(t *testing.T) {
 func TestOutboundAppChosenID(t *testing.T) {
 	projectID := testacc.ProjectID(t)
 	a := testacc.OutboundApp(t)
-	first, second := strings.ToLower(a.Name), strings.ToLower(a.Name)+"-2"
+	first := "testacc-" + a.Name[len(a.Name)-8:]
+	second := first + "-2"
 	testacc.RunWithDestroyCheck(t, "descope_outbound_app",
 		// create the app under an id of our choosing rather than one the backend picks
 		resource.TestStep{
@@ -398,6 +401,32 @@ func TestOutboundAppIDSchema(t *testing.T) {
 	}
 	if !replaces {
 		t.Error("changing the id must replace the app, since the backend cannot rename one")
+	}
+}
+
+func TestOutboundAppIDValidators(t *testing.T) {
+	id := outboundapp.OutboundAppAttributes["id"].(schema.StringAttribute)
+	for value, valid := range map[string]bool{
+		"openweather-mcp":                  true,
+		"3m1hllkncymure1mjekc3urdsid":      true,
+		"x":                                true,
+		strings.Repeat("a", 30):            true,
+		strings.Repeat("a", 31):            false,
+		"":                                 false,
+		"Upper":                            false,
+		"under_score":                      false,
+		"dot.ted":                          false,
+		"testacc-outboundappchosenid-1112": false,
+	} {
+		var diags diag.Diagnostics
+		for _, v := range id.Validators {
+			resp := validator.StringResponse{}
+			v.ValidateString(context.Background(), validator.StringRequest{Path: path.Root("id"), ConfigValue: types.StringValue(value)}, &resp)
+			diags.Append(resp.Diagnostics...)
+		}
+		if diags.HasError() == valid {
+			t.Errorf("id %q: expected valid=%v, got diagnostics %v", value, valid, diags)
+		}
 	}
 }
 
