@@ -1652,6 +1652,18 @@ var docsFlow = map[string]string{
 		"`.tf` file using the `data = file(\"...\")` syntax.",
 }
 
+var docsFlowTranslations = map[string]string{
+	"project_id": "The ID of the project that the flow belongs to. Changing this value will require the resource to be " +
+		"deleted and recreated.",
+	"flow_id": "The ID of the flow whose texts are translated (e.g., `sign-up-or-in`). Changing this value will " +
+		"require the resource to be deleted and recreated.",
+	"languages": "A JSON document with the translated texts, the same document as the `languages` object in an " +
+		"export of the flow's localization: an object with a key for each language, each holding the translated " +
+		"texts as an object of strings keyed by the text's translation key. The document replaces all of the " +
+		"flow's translations, and destroying the resource removes them. Only list the languages that the flow's " +
+		"translation settings name as its target languages, since Descope keeps no others.",
+}
+
 var docsApplicationScope = map[string]string{
 	"name":        "A name for the scope.",
 	"description": "A description for the scope.",
@@ -1896,6 +1908,10 @@ var docsAppleKeyGeneratorModel = map[string]string{
 }
 
 var docsOutboundApp = map[string]string{
+	"id": "The ID of the outbound application. Set it to create the application under an ID of your choosing, " +
+		"for example one that the application calling Descope looks the application up by, or leave it out to " +
+		"let Descope generate one. A chosen ID has 1 to 30 lowercase letters, digits or hyphens. Changing this " +
+		"value will require the resource to be deleted and recreated.",
 	"project_id": "The ID of the Descope project this outbound application belongs to. Changing this value will " +
 		"require the resource to be deleted and recreated.",
 	"name":        "A name for the outbound application.",
@@ -2363,7 +2379,9 @@ var docsStyles = map[string]string{
 		"For the same reason removing a style from the data does not remove it from the project - delete it " +
 		"in the console or through the management API instead. An apply is rejected if the data's " +
 		"`componentsVersion` differs from the project's, in which case export the styles again or leave " +
-		"`componentsVersion` out, and if it changes the type of a style that already exists in the project.",
+		"`componentsVersion` out, and if it changes the type of a style that already exists in the project. " +
+		"When the data leaves out `componentsVersion`, a theme whose export differs only in that field " +
+		"plans no change.",
 }
 
 var docsTextTemplate = map[string]string{

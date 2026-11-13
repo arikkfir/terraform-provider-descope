@@ -58,6 +58,7 @@ func TestGenerativeCoverage(t *testing.T) {
 var generativeSkippedResources = map[string]string{
 	"descope_project":           "the container the generated resources live in, created by the seed preamble",
 	"descope_flow":              "payload-based, covered by flow scenarios",
+	"descope_flow_translations": "payload-based and needs a flow with translation turned on, export deferred",
 	"descope_widget":            "payload-based, covered by the widget scenario",
 	"descope_styles":            "payload-based, covered by flow scenarios",
 	"descope_app_role":          "app-scoped wiring, covered by the apps scenario",
@@ -104,6 +105,7 @@ var generativeSkippedAttributes = map[string]string{
 	"descope_project_settings.test_users_verifier_regexp": "coupled pair, handled by pairing",
 	"descope_oauth_provider.claim_mapping":                "claims must map to existing descope attributes",
 	"descope_admin_portal.enabled":                        "requires widgets, handled by pairing",
+	"descope_outbound_app.id":                             "a chosen id replaces the app, exercised by the outbound app test",
 }
 
 var attributeValueOverrides = map[string]string{
