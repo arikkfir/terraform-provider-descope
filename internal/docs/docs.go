@@ -2007,7 +2007,9 @@ var docsStyles = map[string]string{
 		"deleted and recreated.",
 	"data": "The JSON data of the styles in their exported theme representation, defining the visual styling of " +
 		"the project's flow pages. This will usually be exported as a `.json` file from the Descope console, " +
-		"and set in the `.tf` file using the `data = file(\"...\")` syntax.",
+		"and set in the `.tf` file using the `data = file(\"...\")` syntax. When the JSON leaves out the " +
+		"`componentsVersion` field, the project keeps its own version, and a theme whose export differs only " +
+		"in that field plans no change.",
 }
 
 var docsTextTemplate = map[string]string{
