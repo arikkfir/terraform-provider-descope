@@ -70,6 +70,10 @@ func TenantAttribute(t *testing.T) *Resource {
 	return newResource(t, "tenant_attribute")
 }
 
+func Tenant(t *testing.T) *Resource {
+	return newResource(t, "tenant")
+}
+
 func AccessKeyAttribute(t *testing.T) *Resource {
 	return newResource(t, "access_key_attribute")
 }
